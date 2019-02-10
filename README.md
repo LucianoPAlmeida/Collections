@@ -11,4 +11,6 @@ This is just a personal repo for testing and implement cool thing involving coll
 * [RotatedCollection](Collections/RotatedCollection.swift) - A collection that presents the elements of its base collection with the elements position rotated by a given offset.
 * [InterspersedSequence](Collections/Sequence/InterspersedSequence.swift) - A lazy view for sequence that creates a new sequece where for each iteration of the base sequence the value is inserted.
 
+## Licence
+
 Collections is released under MIT Licence.
