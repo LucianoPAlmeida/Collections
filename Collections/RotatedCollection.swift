@@ -53,8 +53,8 @@ extension RotatedCollection: Collection {
     }
 }
 
-public extension Collection {
-    __consuming func rotated(by offset: Int) -> RotatedCollection<Self> {
+extension Collection {
+    public __consuming func rotated(by offset: Int) -> RotatedCollection<Self> {
         return RotatedCollection(_base: self, _offset: offset)
     }
 }
