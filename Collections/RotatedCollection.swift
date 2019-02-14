@@ -19,6 +19,11 @@ public struct RotatedCollection<Base: Collection> {
     @inlinable
     public init(_base: Base, _offset: Int) {
         self._base = _base
+        guard !_base.isEmpty else {
+            self._offset = 0
+            self._computedOffset = 0
+            return
+        }
         self._offset = _offset%_base.count
         self._computedOffset = self._offset > 0 ? _base.count - self._offset : -self._offset
     }
