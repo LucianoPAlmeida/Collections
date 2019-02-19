@@ -30,15 +30,15 @@ class RotatedCollectionTests: XCTestCase {
     override func setUp() {
         rotatedCollectionTests = [
             RotatedCollectionTest(expected: [], collection: [], offset: 1),
-//            RotatedCollectionTest(expected: [1, 2, 3, 4], collection: array, offset: 0),
-//            RotatedCollectionTest(expected: [4, 1, 2, 3], collection: array, offset: 5), /
+            RotatedCollectionTest(expected: [1, 2, 3, 4], collection: array, offset: 0),
+            RotatedCollectionTest(expected: [4, 1, 2, 3], collection: array, offset: 5),
             RotatedCollectionTest(expected: [3, 4, 1, 2], collection: array, offset: 2),
-//            RotatedCollectionTest(expected: [1, 2, 3, 4], collection: array, offset: 4),
+            RotatedCollectionTest(expected: [1, 2, 3, 4], collection: array, offset: 4),
             RotatedCollectionTest(expected: [4, 1, 2, 3], collection: array, offset: 1),
             RotatedCollectionTest(expected: [2, 3, 4, 1], collection: array, offset: 3),
-//            RotatedCollectionTest(expected: [2, 3, 4, 1], collection: array, offset: -1),
-//            RotatedCollectionTest(expected: [4, 1, 2, 3], collection: array, offset: -3),
-//            RotatedCollectionTest(expected: [2, 3, 4, 1], collection: array, offset: -5)
+            RotatedCollectionTest(expected: [2, 3, 4, 1], collection: array, offset: -1),
+            RotatedCollectionTest(expected: [4, 1, 2, 3], collection: array, offset: -3),
+            RotatedCollectionTest(expected: [2, 3, 4, 1], collection: array, offset: -5)
         ]
     }
 
