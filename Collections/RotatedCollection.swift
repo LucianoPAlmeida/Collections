@@ -29,24 +29,60 @@ public struct RotatedCollection<Base: Collection> {
     }
 }
 
-extension RotatedCollection: Collection {
+extension RotatedCollection {
     
-    public typealias Index = Base.Index
+    public struct Index {
+        @usableFromInline
+        let base: Base.Index
+        @usableFromInline
+        let offset: Int
+        
+        @inlinable
+        init(base: Base.Index, offset: Int) {
+            self.base = base
+            self.offset = offset
+        }
+    }
+}
+
+extension RotatedCollection.Index: Comparable {
+    public static func < (lhs: RotatedCollection<Base>.Index, rhs: RotatedCollection<Base>.Index) -> Bool {
+        print("base: \(lhs.base), offset: \(lhs.offset) lhs")
+        print("base: \(rhs.base), offset: \(rhs.offset) rhs")
+        if lhs.offset == 0 && rhs.offset == 0 {
+            return lhs.base < rhs.base
+        }
+        return lhs.offset < rhs.offset
+    }
+}
+
+extension RotatedCollection: Collection {
     public typealias Element = Base.Element
     
-    public var startIndex: Base.Index { return _base.startIndex }
-    public var endIndex: Base.Index { return _base.endIndex }
+    public var startIndex: RotatedCollection.Index {
+        return Index(base: _base.startIndex, offset: computeBaseOffset(for: _base.startIndex))
+    }
+    
+    public var endIndex: RotatedCollection.Index {
+        return Index(base: _base.endIndex, offset: computeBaseOffset(for: _base.endIndex))
+    }
     
     /// Complexity: O(1) only when `Base` conforms to ramdom access collection.
     public subscript(i: Index) -> Element {
-        guard _offset != 0 && _offset != _base.count else { return _base[i] }
-        
-        let offset = computeBaseOffset(for: i)
-        return _base[_base.index(_base.startIndex, offsetBy: offset)]
+        print(i.base)
+//        guard _offset != 0 && _offset != _base.count else { return _base[i.base] }
+////        //
+////        //        let offset = computeBaseOffset(for: i)
+////        //        return _base[_base.index(_base.startIndex, offsetBy: offset)]
+////        fatalError()
+        return _base[i.base]
     }
     
-    private func computeBaseOffset(for i: Index) -> Int {
+    @usableFromInline
+    func computeBaseOffset(for i: Base.Index) -> Int {
+        
         let distance = _base.distance(from: _base.startIndex, to: i)
+        guard _offset != 0 && _offset != _base.count else { return distance }
         return (distance + _computedOffset)%_base.count
     }
     
@@ -54,7 +90,9 @@ extension RotatedCollection: Collection {
     
     @inlinable
     public func index(after i: Index) -> Index {
-        return _base.index(after: i)
+        print("i \(i)")
+        let after = _base.index(after: i.base)
+        return Index(base: after, offset: self.computeBaseOffset(for: after))
     }
 }
 
