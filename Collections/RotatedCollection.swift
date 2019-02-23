@@ -78,6 +78,7 @@ extension RotatedCollection: Collection {
     
     public var count: Int { return _base.count }
     
+    /// Complexity: O(1) only when `Base` conforms to ramdom access collection.
     @inlinable
     public func index(after i: Index) -> Index {
         let after = _base.index(after: i.base)
