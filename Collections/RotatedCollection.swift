@@ -29,32 +29,60 @@ public struct RotatedCollection<Base: Collection> {
     }
 }
 
+extension RotatedCollection {
+    // RotatedCollection Index.
+    public struct Index {
+        @usableFromInline
+        let base: Base.Index
+        @usableFromInline
+        let baseOffset: Int
+        
+        @inlinable
+        init(base: Base.Index, baseOffset: Int) {
+            self.base = base
+            self.baseOffset = baseOffset
+        }
+    }
+}
+
+extension RotatedCollection.Index: Comparable {
+    public static func < (lhs: RotatedCollection<Base>.Index, rhs: RotatedCollection<Base>.Index) -> Bool {
+        return lhs.baseOffset < rhs.baseOffset
+    }
+}
+
 extension RotatedCollection: Collection {
-    
-    public typealias Index = Base.Index
     public typealias Element = Base.Element
     
-    public var startIndex: Base.Index { return _base.startIndex }
-    public var endIndex: Base.Index { return _base.endIndex }
+    public var startIndex: RotatedCollection.Index {
+        return Index(base: _base.startIndex, baseOffset: computeBaseOffset(for: _base.startIndex))
+    }
+    
+    public var endIndex: RotatedCollection.Index {
+        return Index(base: _base.endIndex, baseOffset: computeBaseOffset(for: _base.endIndex))
+    }
     
     /// Complexity: O(1) only when `Base` conforms to ramdom access collection.
     public subscript(i: Index) -> Element {
-        guard _offset != 0 && _offset != _base.count else { return _base[i] }
-        
-        let offset = computeBaseOffset(for: i)
-        return _base[_base.index(_base.startIndex, offsetBy: offset)]
+        return _base[_base.index(_base.startIndex, offsetBy: i.baseOffset)]
     }
     
-    private func computeBaseOffset(for i: Index) -> Int {
+    @usableFromInline
+    func computeBaseOffset(for i: Base.Index) -> Int {
         let distance = _base.distance(from: _base.startIndex, to: i)
-        return (distance + _computedOffset)%_base.count
+        let baseCount = _base.count
+        guard _offset != 0 && _offset != baseCount else { return distance }
+
+        return (distance + _computedOffset)%baseCount
     }
     
     public var count: Int { return _base.count }
     
+    /// Complexity: O(1) only when `Base` conforms to ramdom access collection.
     @inlinable
     public func index(after i: Index) -> Index {
-        return _base.index(after: i)
+        let after = _base.index(after: i.base)
+        return Index(base: after, baseOffset: self.computeBaseOffset(for: after))
     }
 }
 

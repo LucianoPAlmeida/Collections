@@ -39,10 +39,9 @@ extension InterspersedSequence.Iterator: IteratorProtocol {
         defer { _intersperse.toggle() }
         if _intersperse && _nextValue != nil {
             return _value
-        } else {
-            defer { _nextValue = _base.next() }
-            return _nextValue
         }
+        defer { _nextValue = _base.next() }
+        return _nextValue
     }
 }
 
