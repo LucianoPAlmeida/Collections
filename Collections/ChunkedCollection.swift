@@ -107,10 +107,10 @@ extension Collection {
     ///   Otherwise, the last chunk will contain the remaining elements.
     ///
     ///     let c = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    ///     print(c.chunks(of: 5).map { [Int]($0) })
+    ///     print(c.chunks(of: 5).map(Array.init))
     ///     // [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]]
     ///
-    ///     print(c.chunks(of: 3).map { [Int]($0) })
+    ///     print(c.chunks(of: 3).map(Array.init))
     ///     // [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]
     ///
     /// - Complexity: O(1)
