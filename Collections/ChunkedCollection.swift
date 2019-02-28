@@ -49,8 +49,8 @@ extension ChunkedCollection: Collection {
     public var endIndex: Index { return Index(_base: _base.endIndex) }
     
     public subscript(i: Index) -> Element {
-        let b = i..<index(after: i)
-        return _base[b.lowerBound._base..<b.upperBound._base]
+        let range = i..<index(after: i)
+        return _base[range.lowerBound._base..<range.upperBound._base]
     }
     
     @inlinable
