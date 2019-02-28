@@ -34,40 +34,61 @@ public struct ChunkedCollection<Base: Collection> {
 }
 
 extension ChunkedCollection: Collection {
-    public typealias Index = Base.Index
+    public struct Index {
+        @usableFromInline
+        let _base: Base.Index
+        
+        @usableFromInline
+        init(_base: Base.Index) {
+            self._base = _base
+        }
+    }
+    
     public typealias Element = Base.SubSequence
-    public var startIndex: Base.Index { return _base.startIndex }
-    public var endIndex: Base.Index { return _base.endIndex }
-    public subscript(i: Index) -> Element { return _base[i..<index(after: i)] }
+    public var startIndex: Index { return Index(_base: _base.startIndex) }
+    public var endIndex: Index { return Index(_base: _base.endIndex) }
+    
+    public subscript(i: Index) -> Element {
+        let b = i..<index(after: i)
+        return _base[b.lowerBound._base..<b.upperBound._base]
+    }
     
     @inlinable
     public func index(after i: Index) -> Index {
-        return _base.index(i, offsetBy: _size, limitedBy: _base.endIndex) ?? _base.endIndex
+        return Index(_base: _base.index(i._base, offsetBy: _size, limitedBy: _base.endIndex) ?? _base.endIndex)
+    }
+
+}
+
+extension ChunkedCollection.Index: Comparable {
+    public static func < (lhs: ChunkedCollection<Base>.Index, rhs: ChunkedCollection<Base>.Index) -> Bool {
+        return lhs._base < rhs._base
     }
 }
 
-extension ChunkedCollection: BidirectionalCollection, RandomAccessCollection where Base: RandomAccessCollection {
+extension ChunkedCollection: BidirectionalCollection, RandomAccessCollection
+where Base: RandomAccessCollection {
     @inlinable
     public func index(before i: Index) -> Index {
-        if i == _base.endIndex {
+        if i._base == _base.endIndex {
             let remainder = _base.count%_size
             if remainder != 0 {
-                return _base.index(i, offsetBy: -remainder)
+                return Index(_base: _base.index(i._base, offsetBy: -remainder))
             }
         }
-        return _base.index(i, offsetBy: -_size)
+        return Index(_base: _base.index(i._base, offsetBy: -_size))
     }
     
     @inlinable
-    public func distance(from start: Base.Index, to end: Base.Index) -> Int {
-        let distance = _base.distance(from: start, to: end)
+    public func distance(from start: Index, to end: Index) -> Int {
+        let distance = _base.distance(from: start._base, to: end._base)
         return distance%_size != 0 ? distance/_size + 1 : distance/_size
     }
     
     @inlinable
-    public func index(_ i: Base.Index, offsetBy n: Int) -> Base.Index {
+    public func index(_ i: Index, offsetBy n: Int) -> Index {
         guard n != 0 else { return i }
-        return _base.index(i, offsetBy: n * _size)
+        return Index(_base: _base.index(i._base, offsetBy: n * _size))
     }
     
     @inlinable
