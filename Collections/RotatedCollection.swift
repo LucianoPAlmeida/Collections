@@ -7,7 +7,7 @@
 //
 
 @_fixed_layout
-public struct RotatedCollection<Base: Collection> {
+public struct RotatedCollection<Base: RandomAccessCollection> {
     @usableFromInline
     internal let _base: Base
     @usableFromInline
@@ -15,7 +15,7 @@ public struct RotatedCollection<Base: Collection> {
     @usableFromInline
     internal let _computedOffset: Int
     
-    /// Complexity: O(1) only when `Base` conforms to ramdom access collection.
+    /// Complexity: O(1).
     @inlinable
     public init(_base: Base, _offset: Int) {
         self._base = _base
@@ -62,7 +62,7 @@ extension RotatedCollection: Collection {
         return Index(base: _base.endIndex, baseOffset: computeBaseOffset(for: _base.endIndex))
     }
     
-    /// Complexity: O(1) only when `Base` conforms to ramdom access collection.
+    /// Complexity: O(1).
     public subscript(i: Index) -> Element {
         return _base[_base.index(_base.startIndex, offsetBy: i.baseOffset)]
     }
@@ -78,7 +78,7 @@ extension RotatedCollection: Collection {
     
     public var count: Int { return _base.count }
     
-    /// Complexity: O(1) only when `Base` conforms to ramdom access collection.
+    /// Complexity: O(1).
     @inlinable
     public func index(after i: Index) -> Index {
         let after = _base.index(after: i.base)
@@ -86,7 +86,7 @@ extension RotatedCollection: Collection {
     }
 }
 
-extension Collection {
+extension RandomAccessCollection {
     public __consuming func rotated(by offset: Int) -> RotatedCollection<Self> {
         return RotatedCollection(_base: self, _offset: offset)
     }
