@@ -95,7 +95,7 @@ extension Collection {
     /// - Complexity: O(1)
     @inlinable
     public __consuming func chunks(of size: Int) -> ChunkedCollection<Self> {
-        _precondition(size > 0, "Split size should be greater than 0.")
+        precondition(size > 0, "Split size should be greater than 0.")
         return ChunkedCollection(_base: self, _size: size)
     }
 }
