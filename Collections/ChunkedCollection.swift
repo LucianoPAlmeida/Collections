@@ -61,7 +61,7 @@ extension ChunkedCollection: BidirectionalCollection, RandomAccessCollection whe
     @inlinable
     public func distance(from start: Base.Index, to end: Base.Index) -> Int {
         let distance = _base.distance(from: start, to: end)
-        return distance%_size != 0 ? distance/_size + 1 : distance/_size
+        return _base.count.isMultiple(of: _size) ? distance/_size : distance/_size + 1
     }
     
     @inlinable
@@ -72,7 +72,7 @@ extension ChunkedCollection: BidirectionalCollection, RandomAccessCollection whe
     
     @inlinable
     public var count: Int {
-        return _base.count%_size != 0 ? _base.count/_size + 1 : _base.count/_size
+        return _base.count.isMultiple(of: _size) ? _base.count/_size : _base.count/_size + 1
     }
 }
 
