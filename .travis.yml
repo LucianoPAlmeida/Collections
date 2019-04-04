@@ -1,5 +1,5 @@
 language: swift
-osx_image: xcode10.1
+osx_image: xcode10.2
 xcode_sdk: macosx10.14
 script:
     - xcodebuild -scheme Collections -project Collections.xcodeproj -destination 'platform=OS X' build test
