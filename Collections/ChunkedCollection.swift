@@ -80,9 +80,9 @@ where Base: RandomAccessCollection {
     }
     
     @inlinable
-    public func distance(from start: Index, to end: Index) -> Int {
-        let distance = _base.distance(from: start._base, to: end._base)
-        return distance%_size != 0 ? distance/_size + 1 : distance/_size
+    public func distance(from start: Base.Index, to end: Base.Index) -> Int {
+        let distance = _base.distance(from: start, to: end)
+        return _base.count.isMultiple(of: _size) ? distance/_size : distance/_size + 1
     }
     
     @inlinable
@@ -93,7 +93,7 @@ where Base: RandomAccessCollection {
     
     @inlinable
     public var count: Int {
-        return _base.count%_size != 0 ? _base.count/_size + 1 : _base.count/_size
+        return _base.count.isMultiple(of: _size) ? _base.count/_size : _base.count/_size + 1
     }
 }
 
@@ -116,7 +116,7 @@ extension Collection {
     /// - Complexity: O(1)
     @inlinable
     public __consuming func chunks(of size: Int) -> ChunkedCollection<Self> {
-        _precondition(size > 0, "Split size should be greater than 0.")
+        precondition(size > 0, "Split size should be greater than 0.")
         return ChunkedCollection(_base: self, _size: size)
     }
 }
