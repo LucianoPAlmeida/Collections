@@ -34,28 +34,49 @@ public struct ChunkedCollection<Base: Collection> {
 }
 
 extension ChunkedCollection: Collection {
-    public typealias Index = Base.Index
+    public struct Index {
+        @usableFromInline
+        let _base: Base.Index
+        
+        @usableFromInline
+        init(_base: Base.Index) {
+            self._base = _base
+        }
+    }
+    
     public typealias Element = Base.SubSequence
-    public var startIndex: Base.Index { return _base.startIndex }
-    public var endIndex: Base.Index { return _base.endIndex }
-    public subscript(i: Index) -> Element { return _base[i..<index(after: i)] }
+    public var startIndex: Index { return Index(_base: _base.startIndex) }
+    public var endIndex: Index { return Index(_base: _base.endIndex) }
+    
+    public subscript(i: Index) -> Element {
+        let range = i..<index(after: i)
+        return _base[range.lowerBound._base..<range.upperBound._base]
+    }
     
     @inlinable
     public func index(after i: Index) -> Index {
-        return _base.index(i, offsetBy: _size, limitedBy: _base.endIndex) ?? _base.endIndex
+        return Index(_base: _base.index(i._base, offsetBy: _size, limitedBy: _base.endIndex) ?? _base.endIndex)
+    }
+
+}
+
+extension ChunkedCollection.Index: Comparable {
+    public static func < (lhs: ChunkedCollection<Base>.Index, rhs: ChunkedCollection<Base>.Index) -> Bool {
+        return lhs._base < rhs._base
     }
 }
 
-extension ChunkedCollection: BidirectionalCollection, RandomAccessCollection where Base: RandomAccessCollection {
+extension ChunkedCollection: BidirectionalCollection, RandomAccessCollection
+where Base: RandomAccessCollection {
     @inlinable
     public func index(before i: Index) -> Index {
-        if i == _base.endIndex {
+        if i._base == _base.endIndex {
             let remainder = _base.count%_size
             if remainder != 0 {
-                return _base.index(i, offsetBy: -remainder)
+                return Index(_base: _base.index(i._base, offsetBy: -remainder))
             }
         }
-        return _base.index(i, offsetBy: -_size)
+        return Index(_base: _base.index(i._base, offsetBy: -_size))
     }
     
     @inlinable
@@ -65,9 +86,9 @@ extension ChunkedCollection: BidirectionalCollection, RandomAccessCollection whe
     }
     
     @inlinable
-    public func index(_ i: Base.Index, offsetBy n: Int) -> Base.Index {
+    public func index(_ i: Index, offsetBy n: Int) -> Index {
         guard n != 0 else { return i }
-        return _base.index(i, offsetBy: n * _size)
+        return Index(_base: _base.index(i._base, offsetBy: n * _size))
     }
     
     @inlinable
@@ -86,10 +107,10 @@ extension Collection {
     ///   Otherwise, the last chunk will contain the remaining elements.
     ///
     ///     let c = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    ///     print(c.chunks(of: 5).map { [Int]($0) })
+    ///     print(c.chunks(of: 5).map(Array.init))
     ///     // [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]]
     ///
-    ///     print(c.chunks(of: 3).map { [Int]($0) })
+    ///     print(c.chunks(of: 3).map(Array.init))
     ///     // [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]
     ///
     /// - Complexity: O(1)
