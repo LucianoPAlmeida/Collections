@@ -79,9 +79,8 @@ where Base: RandomAccessCollection {
         return Index(_base: _base.index(i._base, offsetBy: -_size))
     }
     
-    @inlinable
-    public func distance(from start: Base.Index, to end: Base.Index) -> Int {
-        let distance = _base.distance(from: start, to: end)
+    public func distance(from start: Index, to end: Index) -> Int {
+        let distance = _base.distance(from: start._base, to: end._base)
         return _base.count.isMultiple(of: _size) ? distance/_size : distance/_size + 1
     }
     
