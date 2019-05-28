@@ -80,8 +80,8 @@ where Base: RandomAccessCollection {
     }
     
     public func distance(from start: Index, to end: Index) -> Int {
-        let distance = _base.distance(from: start._base, to: end._base)
-        return _base.count.isMultiple(of: _size) ? distance/_size : distance/_size + 1
+        let distance = _base.distance(from: start._base, to: end._base)/_size
+        return _base.count.isMultiple(of: _size) ? distance : distance + 1
     }
     
     @inlinable
@@ -92,7 +92,8 @@ where Base: RandomAccessCollection {
     
     @inlinable
     public var count: Int {
-        return _base.count.isMultiple(of: _size) ? _base.count/_size : _base.count/_size + 1
+        let count = _base.count/_size
+        return _base.count.isMultiple(of: _size) ? count : count + 1
     }
 }
 
