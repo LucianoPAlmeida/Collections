@@ -7,6 +7,7 @@
 //
 
 /// A lazy view for sequence that creates a new sequece where for each iteration of the base sequence the value is inserted.
+@frozen
 public struct InterspersedSequence<Base: Sequence> {
     @usableFromInline
     var _base: Base

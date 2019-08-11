@@ -6,7 +6,7 @@
 //  Copyright © 2019 Luciano Almeida. All rights reserved.
 //
 
-@_fixed_layout
+@frozen
 public struct RotatedCollection<Base: RandomAccessCollection> {
     @usableFromInline
     internal let _base: Base

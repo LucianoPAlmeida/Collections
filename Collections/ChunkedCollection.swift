@@ -15,7 +15,7 @@
 /// * `c.chunks(of: 3)` does not create new storage
 /// * `c.chunks(of: 3).map(f)` maps eagerly and returns a new array
 /// * `c.lazy.chunks(of: 3).map(f)` maps lazily and returns a `LazyMapCollection`
-@_fixed_layout
+@frozen
 public struct ChunkedCollection<Base: Collection> {
     @usableFromInline
     internal let _base: Base
