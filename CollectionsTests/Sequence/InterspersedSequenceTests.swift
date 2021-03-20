@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Collections
 
 class InterspersedSequenceTests: XCTestCase {
 

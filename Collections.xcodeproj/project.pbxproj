@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		B2E4E15F2210B82F002ADD31 /* Collections.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2E4E1552210B82F002ADD31 /* Collections.framework */; };
 		B2E4E1662210B82F002ADD31 /* Collections.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E4E1582210B82F002ADD31 /* Collections.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B2E4E1702210B861002ADD31 /* ChunkedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E4E16F2210B861002ADD31 /* ChunkedCollection.swift */; };
-		B2E4E1722210B987002ADD31 /* ChunkedCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E4E1712210B987002ADD31 /* ChunkedCollectionTests.swift */; };
 		B2E4E1742210BFDF002ADD31 /* RotatedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E4E1732210BFDF002ADD31 /* RotatedCollection.swift */; };
 		B2E4E1762210C033002ADD31 /* RotatedCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E4E1752210C033002ADD31 /* RotatedCollectionTests.swift */; };
 		B2E4E17A2210C685002ADD31 /* InterspersedSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E4E1792210C685002ADD31 /* InterspersedSequence.swift */; };
@@ -33,8 +31,6 @@
 		B2E4E1592210B82F002ADD31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2E4E15E2210B82F002ADD31 /* CollectionsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollectionsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2E4E1652210B82F002ADD31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B2E4E16F2210B861002ADD31 /* ChunkedCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunkedCollection.swift; sourceTree = "<group>"; };
-		B2E4E1712210B987002ADD31 /* ChunkedCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunkedCollectionTests.swift; sourceTree = "<group>"; };
 		B2E4E1732210BFDF002ADD31 /* RotatedCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatedCollection.swift; sourceTree = "<group>"; };
 		B2E4E1752210C033002ADD31 /* RotatedCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatedCollectionTests.swift; sourceTree = "<group>"; };
 		B2E4E1792210C685002ADD31 /* InterspersedSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterspersedSequence.swift; sourceTree = "<group>"; };
@@ -84,7 +80,6 @@
 				B2E4E1772210C36A002ADD31 /* Sequence */,
 				B2E4E1582210B82F002ADD31 /* Collections.h */,
 				B2E4E1592210B82F002ADD31 /* Info.plist */,
-				B2E4E16F2210B861002ADD31 /* ChunkedCollection.swift */,
 				B2E4E1732210BFDF002ADD31 /* RotatedCollection.swift */,
 			);
 			path = Collections;
@@ -95,7 +90,6 @@
 			children = (
 				B2E4E1782210C374002ADD31 /* Sequence */,
 				B2E4E1652210B82F002ADD31 /* Info.plist */,
-				B2E4E1712210B987002ADD31 /* ChunkedCollectionTests.swift */,
 				B2E4E1752210C033002ADD31 /* RotatedCollectionTests.swift */,
 			);
 			path = CollectionsTests;
@@ -229,7 +223,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2E4E17A2210C685002ADD31 /* InterspersedSequence.swift in Sources */,
-				B2E4E1702210B861002ADD31 /* ChunkedCollection.swift in Sources */,
 				B2E4E1742210BFDF002ADD31 /* RotatedCollection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -238,7 +231,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2E4E1722210B987002ADD31 /* ChunkedCollectionTests.swift in Sources */,
 				B2E4E1762210C033002ADD31 /* RotatedCollectionTests.swift in Sources */,
 				B2E4E17C2210C7B2002ADD31 /* InterspersedSequenceTests.swift in Sources */,
 			);
